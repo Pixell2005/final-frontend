@@ -1,101 +1,197 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { getMovie, updateMovie } from "../services/api";
-import ReviewForm from "../components/ReviewForm";
-import ReviewItem from "../components/ReviewItem";
 
 export default function MovieDetail() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [reviewText, setReviewText] = useState("");
+  const [rating, setRating] = useState(5);
+
   useEffect(() => {
-    getMovie(id)
-      .then((res) => {
-        const movieData = res.data;
-
-        // Pastikan reviews tidak undefined
-        if (!movieData.reviews) movieData.reviews = [];
-
-        setMovie(movieData);
+    async function fetchData() {
+      try {
+        const res = await getMovie(id);
+        // Pastikan field reviews ada
+        if (!res.data.reviews) res.data.reviews = [];
+        setMovie(res.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => {
-        alert("Failed to load movie detail");
-        setLoading(false);
-      });
+      }
+    }
+    fetchData();
   }, [id]);
 
-  function addReview(review) {
-    const updatedMovie = {
-      ...movie,
-      reviews: [...movie.reviews, review]
+  async function addReview(e) {
+    e.preventDefault();
+
+    const newReview = {
+      text: reviewText,
+      rating: Number(rating),
+      date: new Date().toISOString(),
     };
 
-    updateMovie(id, updatedMovie)
-      .then(() => {
-        setMovie(updatedMovie);
-      })
-      .catch(() => alert("Failed to submit review"));
+    const updatedMovie = {
+      ...movie,
+      reviews: [...movie.reviews, newReview],
+    };
+
+    try {
+      await updateMovie(movie.id, updatedMovie);
+      setMovie(updatedMovie);
+      setReviewText("");
+      setRating(5);
+    } catch (err) {
+      alert("Failed to add review");
+    }
   }
 
-  if (loading) return <p className="text-center mt-6">Loading...</p>;
-  if (!movie) return <p className="text-center mt-6">Movie not found.</p>;
-
-  const avgRating =
-    movie.reviews.length > 0
-      ? (
-          movie.reviews.reduce((sum, r) => sum + Number(r.rating), 0) /
-          movie.reviews.length
-        ).toFixed(1)
-      : "-";
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (!movie) return <p className="text-center mt-10">Movie not found.</p>;
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <Link
-        to="/"
-        className="inline-block mb-4 text-blue-600 hover:underline text-lg"
-      >
-        ← Back to Home
-      </Link>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="max-w-5xl mx-auto mt-8 p-4"
+    >
+      {/* Back Button */}
+      <motion.div whileHover={{ x: -3 }}>
+        <Link
+          to="/"
+          className="inline-block mb-6 text-blue-600 font-medium hover:underline"
+        >
+          ← Back to Home
+        </Link>
+      </motion.div>
 
-      <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
-        {/* Poster */}
-        <img
+      <div className="flex flex-col md:flex-row gap-10">
+        {/* Poster with cinematic fade */}
+        <motion.img
           src={movie.poster}
           alt={movie.title}
-          className="w-full h-[450px] object-cover"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="w-full md:w-80 rounded-xl shadow-2xl object-cover"
         />
 
-        {/* Content */}
-        <div className="p-6">
-          <h1 className="text-4xl font-extrabold mb-2">{movie.title}</h1>
+        {/* Movie Info */}
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex-1"
+        >
+          <h1 className="text-4xl font-extrabold mb-2">
+            {movie.title}{" "}
+            <span className="text-gray-500 text-2xl">({movie.year})</span>
+          </h1>
 
-          <p className="text-gray-600 mb-1">
-            {movie.year} • {movie.genre}
-          </p>
+          <p className="text-lg text-gray-600 mb-4">{movie.genre}</p>
 
-          <p className="text-yellow-500 text-xl font-semibold mb-4">
-            ⭐ {avgRating} / 5
-          </p>
+          {/* Rating Average */}
+          {movie.reviews.length > 0 ? (
+            <p className="text-yellow-500 text-xl font-semibold mb-4">
+              ⭐{" "}
+              {(
+                movie.reviews.reduce((a, b) => a + b.rating, 0) /
+                movie.reviews.length
+              ).toFixed(1)}{" "}
+              / 5
+            </p>
+          ) : (
+            <p className="text-gray-500 mb-4">No ratings yet</p>
+          )}
+
+          <hr className="my-6" />
 
           {/* Reviews */}
-          <h2 className="text-2xl font-bold mt-6 mb-3">Reviews</h2>
+          <h2 className="text-2xl font-bold mb-3">Reviews</h2>
 
-          <div className="space-y-3">
-            {movie.reviews.length > 0 ? (
-              movie.reviews.map((review, i) => (
-                <ReviewItem key={i} review={review} />
-              ))
-            ) : (
-              <p className="text-gray-500">Belum ada review.</p>
-            )}
-          </div>
+          {movie.reviews.length === 0 ? (
+            <p className="text-gray-500 mb-4">No reviews yet</p>
+          ) : (
+            <motion.div
+              initial="hidden"
+              animate="show"
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.15 },
+                },
+              }}
+              className="space-y-4 mb-6"
+            >
+              {movie.reviews.map((rev, idx) => (
+                <motion.div
+                  key={idx}
+                  variants={{
+                    hidden: { opacity: 0, y: 15 },
+                    show: { opacity: 1, y: 0 },
+                  }}
+                  className="bg-gray-100 p-4 rounded-xl shadow border border-gray-200"
+                >
+                  <p className="font-semibold text-yellow-600">
+                    ⭐ {rev.rating}/5
+                  </p>
+                  <p className="text-gray-700 mt-1">{rev.text}</p>
+                  <p className="text-gray-400 text-sm mt-1">
+                    {new Date(rev.date).toLocaleString()}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
 
           {/* Add Review Form */}
-          <ReviewForm onSubmit={addReview} />
-        </div>
+          <motion.form
+            onSubmit={addReview}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-white shadow-lg p-5 rounded-xl border"
+          >
+            <h3 className="text-xl font-bold mb-3">Add Review</h3>
+
+            <label className="block mb-2 font-medium">Rating</label>
+            <select
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+              className="border rounded px-3 py-2 mb-4"
+            >
+              <option value={5}>⭐⭐⭐⭐⭐</option>
+              <option value={4}>⭐⭐⭐⭐</option>
+              <option value={3}>⭐⭐⭐</option>
+              <option value={2}>⭐⭐</option>
+              <option value={1}>⭐</option>
+            </select>
+
+            <label className="block mb-2 font-medium">Your Review</label>
+            <textarea
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              className="w-full border rounded px-3 py-2 h-28"
+              placeholder="Write your thoughts..."
+            />
+
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.95 }}
+              type="submit"
+              className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+            >
+              Submit Review
+            </motion.button>
+          </motion.form>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

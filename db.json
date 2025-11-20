@@ -1,7 +1,7 @@
 {
   "movies": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Inception",
       "year": 2010,
       "genre": "Sci-Fi",
@@ -9,12 +9,23 @@
       "reviews": []
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Interstellar",
       "year": 2014,
       "genre": "Adventure",
       "poster": "https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",
-      "reviews": []
+      "reviews": [
+        {
+          "text": "film sad",
+          "rating": 5,
+          "date": "2025-11-20T09:46:20.292Z"
+        },
+        {
+          "text": "a",
+          "rating": 3,
+          "date": "2025-11-20T09:46:42.533Z"
+        }
+      ]
     }
   ]
 }
