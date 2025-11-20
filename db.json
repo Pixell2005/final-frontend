@@ -5,14 +5,16 @@
 "title": "Inception",
 "year": 2010,
 "genre": "Sci-Fi",
-"poster": "https://image.tmdb.org/t/p/w500/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg"
+"poster": "https://image.tmdb.org/t/p/w500/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg",
+"review": []
 },
 {
 "id": 2,
 "title": "Interstellar",
 "year": 2014,
 "genre": "Adventure",
-"poster": "https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg"
+"poster": "https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",
+"review": []
 }
 ]
 }
