@@ -1,27 +1,46 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-export default function Hero(){
+export default function Hero() {
+  const { user } = useAuth();
+
   return (
-    <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-gradient-to-r from-blue-50 to-white dark:from-black/40 dark:to-black/30 py-12 rounded-xl mb-6">
-      <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-6">
-        <div className="flex-1">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-3">Discover movies. Write reviews. Share feelings.</h1>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">A minimalist cinematic review app inspired by Letterboxd — modern UI, smooth animations, and simple CRUD.</p>
-          <div className="flex gap-3">
-            <Link to="/add" className="px-5 py-3 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition">Add a Movie</Link>
-            <Link to="/" className="px-5 py-3 border rounded-xl bg-white/60 dark:bg-transparent transition">Browse</Link>
-          </div>
-        </div>
+    <section className="px-10 py-20 bg-gradient-to-r from-gray-200 to-gray-300 relative">
+      <div className="max-w-4xl">
+        <h1 className="text-5xl font-extrabold text-gray-900 leading-tight">
+          Discover movies. Write reviews. Share feelings.
+        </h1>
 
-        <motion.div className="w-full md:w-1/3">
-          <div className="relative rounded-xl overflow-hidden shadow-2xl">
-            <img src="https://image.tmdb.org/t/p/w500/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg" alt="hero" className="w-full h-56 object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          </div>
-        </motion.div>
+        <p className="mt-4 text-gray-700 text-lg">
+          A minimalist cinematic review app inspired by Letterboxd — modern UI,
+          smooth animations, and simple CRUD.
+        </p>
+
+        <div className="flex gap-4 mt-8">
+          {/* ADMIN ONLY */}
+          {user?.role === "admin" && (
+            <Link
+              to="/admin/add"
+              className="px-6 py-3 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition"
+            >
+              Add a Movie
+            </Link>
+          )}
+
+          <Link
+            to="/"
+            className="px-6 py-3 bg-white border rounded-xl shadow hover:bg-gray-100 transition"
+          >
+            Browse
+          </Link>
+        </div>
       </div>
-    </motion.section>
+
+      <img
+        src="/assets/hero.jpg"
+        alt="hero"
+        className="absolute right-20 top-10 w-[450px] rounded-2xl shadow-lg opacity-60"
+      />
+    </section>
   );
 }

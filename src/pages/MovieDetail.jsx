@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getMovie, updateMovie } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 export default function MovieDetail() {
   const { id } = useParams();
+  const { user } = useAuth();   // <-- FIX LOGIN CHECK
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +17,6 @@ export default function MovieDetail() {
     async function fetchData() {
       try {
         const res = await getMovie(id);
-        // Pastikan field reviews ada
         if (!res.data.reviews) res.data.reviews = [];
         setMovie(res.data);
       } catch (err) {
@@ -27,10 +28,19 @@ export default function MovieDetail() {
     fetchData();
   }, [id]);
 
+  // --------------------------
+  // ADD REVIEW (ONLY FOR USERS)
+  // --------------------------
   async function addReview(e) {
     e.preventDefault();
 
+    if (!user) {
+      alert("You must login to write reviews.");
+      return;
+    }
+
     const newReview = {
+      user: user.username,
       text: reviewText,
       rating: Number(rating),
       date: new Date().toISOString(),
@@ -71,7 +81,6 @@ export default function MovieDetail() {
       </motion.div>
 
       <div className="flex flex-col md:flex-row gap-10">
-        {/* Poster with cinematic fade */}
         <motion.img
           src={movie.poster}
           alt={movie.title}
@@ -98,7 +107,7 @@ export default function MovieDetail() {
           {/* Rating Average */}
           {movie.reviews.length > 0 ? (
             <p className="text-yellow-500 text-xl font-semibold mb-4">
-              ⭐{" "}
+              ⭐
               {(
                 movie.reviews.reduce((a, b) => a + b.rating, 0) /
                 movie.reviews.length
@@ -109,6 +118,16 @@ export default function MovieDetail() {
             <p className="text-gray-500 mb-4">No ratings yet</p>
           )}
 
+          {/* EDIT BUTTON - ONLY ADMIN */}
+          {user?.role === "admin" && (
+            <Link
+              to={`/admin/edit/${movie.id}`}
+              className="mt-4 inline-block px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+            >
+              Edit Movie
+            </Link>
+          )}
+
           <hr className="my-6" />
 
           {/* Reviews */}
@@ -117,79 +136,74 @@ export default function MovieDetail() {
           {movie.reviews.length === 0 ? (
             <p className="text-gray-500 mb-4">No reviews yet</p>
           ) : (
-            <motion.div
-              initial="hidden"
-              animate="show"
-              variants={{
-                hidden: { opacity: 0 },
-                show: {
-                  opacity: 1,
-                  transition: { staggerChildren: 0.15 },
-                },
-              }}
-              className="space-y-4 mb-6"
-            >
+            <div className="space-y-4 mb-6">
               {movie.reviews.map((rev, idx) => (
-                <motion.div
+                <div
                   key={idx}
-                  variants={{
-                    hidden: { opacity: 0, y: 15 },
-                    show: { opacity: 1, y: 0 },
-                  }}
                   className="bg-gray-100 p-4 rounded-xl shadow border border-gray-200"
                 >
                   <p className="font-semibold text-yellow-600">
                     ⭐ {rev.rating}/5
                   </p>
                   <p className="text-gray-700 mt-1">{rev.text}</p>
-                  <p className="text-gray-400 text-sm mt-1">
+                  <p className="text-gray-500 text-sm mt-1">
                     {new Date(rev.date).toLocaleString()}
                   </p>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           )}
 
-          {/* Add Review Form */}
-          <motion.form
-            onSubmit={addReview}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="bg-white shadow-lg p-5 rounded-xl border"
-          >
-            <h3 className="text-xl font-bold mb-3">Add Review</h3>
-
-            <label className="block mb-2 font-medium">Rating</label>
-            <select
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              className="border rounded px-3 py-2 mb-4"
+          {/* ADD REVIEW FORM - ONLY IF LOGGED IN */}
+          {user ? (
+            <motion.form
+              onSubmit={addReview}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="bg-white shadow-lg p-5 rounded-xl border"
             >
-              <option value={5}>⭐⭐⭐⭐⭐</option>
-              <option value={4}>⭐⭐⭐⭐</option>
-              <option value={3}>⭐⭐⭐</option>
-              <option value={2}>⭐⭐</option>
-              <option value={1}>⭐</option>
-            </select>
+              <h3 className="text-xl font-bold mb-3">Add Review</h3>
 
-            <label className="block mb-2 font-medium">Your Review</label>
-            <textarea
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-              className="w-full border rounded px-3 py-2 h-28"
-              placeholder="Write your thoughts..."
-            />
+              <label className="block mb-2 font-medium">Rating</label>
+              <select
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+                className="border rounded px-3 py-2 mb-4"
+              >
+                <option value={5}>⭐⭐⭐⭐⭐</option>
+                <option value={4}>⭐⭐⭐⭐</option>
+                <option value={3}>⭐⭐⭐</option>
+                <option value={2}>⭐⭐</option>
+                <option value={1}>⭐</option>
+              </select>
 
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.95 }}
-              type="submit"
-              className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
-            >
-              Submit Review
-            </motion.button>
-          </motion.form>
+              <label className="block mb-2 font-medium">Your Review</label>
+              <textarea
+                value={reviewText}
+                onChange={(e) => setReviewText(e.target.value)}
+                className="w-full border rounded px-3 py-2 h-28"
+                placeholder="Write your thoughts..."
+              />
+
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.95 }}
+                type="submit"
+                className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+              >
+                Submit Review
+              </motion.button>
+            </motion.form>
+          ) : (
+            <p className="text-gray-500 mt-4">
+              You must{" "}
+              <Link to="/login" className="text-blue-600 underline">
+                login
+              </Link>{" "}
+              to write a review.
+            </p>
+          )}
         </motion.div>
       </div>
     </motion.div>

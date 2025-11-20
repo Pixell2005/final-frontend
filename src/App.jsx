@@ -1,26 +1,48 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import AddEditMovie from './pages/AddEditMovie';
-import MovieDetail from './pages/MovieDetail';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 
-function App(){
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import MovieDetail from "./pages/MovieDetail";
+import AddEditMovie from "./pages/AddEditMovie";
+
+import AdminRoute from "./components/AdminRoute";
+
+import { ThemeProvider } from "./context/ThemeContext";
+// ... yang lain tetap
+
+export default function App() {
   return (
-    <Router>
-      <div className="min-h-screen">
-        <Navbar />
-        <div className="py-8">
+    <AuthProvider>
+      <ThemeProvider>
+        <Router>
+          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/add" element={<AddEditMovie />} />
-            <Route path="/edit/:id" element={<AddEditMovie />} />
-            <Route path="/movie/:id" element={<MovieDetail />} />
+            <Route path="/movies/:id" element={<MovieDetail />} />
+            <Route path="/login" element={<Login />} />
+
+            <Route
+              path="/admin/add"
+              element={
+                <AdminRoute>
+                  <AddEditMovie />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/edit/:id"
+              element={
+                <AdminRoute>
+                  <AddEditMovie />
+                </AdminRoute>
+              }
+            />
           </Routes>
-        </div>
-      </div>
-    </Router>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
-export default App;
