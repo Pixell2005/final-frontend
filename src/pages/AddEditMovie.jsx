@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { createMovie, getMovie, updateMovie } from "../services/api";
+import { GENRES } from "../pages/genres"; // Update import
 
 export default function AddEditMovie() {
   const { id } = useParams();
@@ -16,10 +17,7 @@ export default function AddEditMovie() {
   const [loading, setLoading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
-  const GENRES = [
-    "Action", "Sci-Fi", "Romance", "Drama", "Fantasy", "Horror",
-    "Thriller", "Animation", "Comedy"
-  ];
+  // Hapus GENRES array lokal, gunakan dari constants
 
   // =========================
   // LOAD MOVIE IF EDIT MODE
@@ -105,7 +103,6 @@ export default function AddEditMovie() {
 
   return (
     <div className="min-h-screen px-6 py-10 bg-gradient-to-br from-gray-900 via-gray-800 to-black">
-
       <motion.div
         className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 
                    bg-white/20 backdrop-blur-xl shadow-xl 
@@ -114,7 +111,6 @@ export default function AddEditMovie() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-
         {/* POSTER SECTION */}
         <motion.div
           className="flex flex-col gap-4"
