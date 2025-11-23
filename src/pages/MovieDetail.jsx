@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function MovieDetail() {
   const { id } = useParams();
-  const { user } = useAuth();   // <-- FIX LOGIN CHECK
+  const { user } = useAuth();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -28,9 +28,6 @@ export default function MovieDetail() {
     fetchData();
   }, [id]);
 
-  // --------------------------
-  // ADD REVIEW (ONLY FOR USERS)
-  // --------------------------
   async function addReview(e) {
     e.preventDefault();
 
@@ -70,7 +67,6 @@ export default function MovieDetail() {
       animate={{ opacity: 1 }}
       className="max-w-5xl mx-auto mt-8 p-4"
     >
-      {/* Back Button */}
       <motion.div whileHover={{ x: -3 }}>
         <Link
           to="/"
@@ -90,7 +86,7 @@ export default function MovieDetail() {
           className="w-full md:w-80 rounded-xl shadow-2xl object-cover"
         />
 
-        {/* Movie Info */}
+        {/* MOVIE INFO */}
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -104,7 +100,32 @@ export default function MovieDetail() {
 
           <p className="text-lg text-gray-600 mb-4">{movie.genre}</p>
 
-          {/* Rating Average */}
+          {/* SUMMARY */}
+          <p className="text-gray-800 mb-4 leading-relaxed">
+            {movie.summary || "No summary available."}
+          </p>
+
+          {/* PRODUCER */}
+          <div className="mb-4">
+            <h3 className="text-xl font-semibold mb-1">Producer</h3>
+            <p className="text-gray-700">{movie.producer || "Unknown"}</p>
+          </div>
+
+          {/* CAST */}
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold mb-1">Cast</h3>
+            {movie.cast && movie.cast.length > 0 ? (
+              <ul className="list-disc list-inside text-gray-700">
+                {movie.cast.map((actor, i) => (
+                  <li key={i}>{actor}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500">No cast information.</p>
+            )}
+          </div>
+
+          {/* RATING */}
           {movie.reviews.length > 0 ? (
             <p className="text-yellow-500 text-xl font-semibold mb-4">
               ⭐
@@ -118,7 +139,7 @@ export default function MovieDetail() {
             <p className="text-gray-500 mb-4">No ratings yet</p>
           )}
 
-          {/* EDIT BUTTON - ONLY ADMIN */}
+          {/* EDIT BUTTON (ADMIN) */}
           {user?.role === "admin" && (
             <Link
               to={`/admin/edit/${movie.id}`}
@@ -130,7 +151,7 @@ export default function MovieDetail() {
 
           <hr className="my-6" />
 
-          {/* Reviews */}
+          {/* REVIEWS */}
           <h2 className="text-2xl font-bold mb-3">Reviews</h2>
 
           {movie.reviews.length === 0 ? (
@@ -154,7 +175,7 @@ export default function MovieDetail() {
             </div>
           )}
 
-          {/* ADD REVIEW FORM - ONLY IF LOGGED IN */}
+          {/* ADD REVIEW */}
           {user ? (
             <motion.form
               onSubmit={addReview}
