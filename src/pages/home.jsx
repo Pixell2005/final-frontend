@@ -3,45 +3,68 @@ import { getMovies, deleteMovie } from '../services/api';
 import MovieCard from '../components/MovieCard';
 import Hero from '../components/Hero';
 import { motion, AnimatePresence } from 'framer-motion';
+import DropdownGenre from '../pages/DropdownGenre';
 
-export default function Home(){
-  const [movies, setMovies] = useState([]);
+export default function Home() {
+  const [allMovies, setAllMovies] = useState([]);
   const [query, setQuery] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState('');
   const [loading, setLoading] = useState(true);
 
-  async function fetchMovies(q = '') {
+  async function fetchAllMovies() {
     setLoading(true);
     try {
-      const param = q ? `?q=${encodeURIComponent(q)}` : '';
-      const res = await getMovies(param);
-      setMovies(res.data || []);
+      const res = await getMovies();
+      setAllMovies(res.data || []);
     } catch (err) {
       console.error(err);
-    } finally { setLoading(false); }
+    } finally { 
+      setLoading(false); 
+    }
   }
 
-  useEffect(() => { fetchMovies(); }, []);
+  useEffect(() => { 
+    fetchAllMovies(); 
+  }, []);
 
-  // listen global-search event from Navbar
+  // Listen global-search event from Navbar
   useEffect(() => {
     function onSearch(e) {
       const q = e.detail || '';
       setQuery(q);
-      fetchMovies(q);
     }
     window.addEventListener('global-search', onSearch);
     return () => window.removeEventListener('global-search', onSearch);
+  }, []);
+
+  // Listen global-genre-filter event from Navbar
+  useEffect(() => {
+    function onGenreFilter(e) {
+      setSelectedGenre(e.detail || '');
+    }
+    window.addEventListener('global-genre-filter', onGenreFilter);
+    return () => window.removeEventListener('global-genre-filter', onGenreFilter);
   }, []);
 
   async function handleDelete(id) {
     if (!confirm('Delete this movie?')) return;
     try {
       await deleteMovie(id);
-      setMovies(prev => prev.filter(m => m.id !== id));
+      setAllMovies(prev => prev.filter(m => m.id !== id));
     } catch (err) {
       alert('Failed to delete');
     }
   }
+
+  // Filter movies berdasarkan genre dan partial match search
+  const filteredMovies = allMovies.filter(movie => {
+    const matchesGenre = selectedGenre ? movie.genre === selectedGenre : true;
+    
+    const matchesSearch = query ? 
+      movie.title.toLowerCase().includes(query.toLowerCase()) : true;
+    
+    return matchesGenre && matchesSearch;
+  });
 
   const gridVariants = {
     hidden: {},
@@ -62,27 +85,77 @@ export default function Home(){
       <Hero />
 
       <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold">Movies</h2>
-          <p className="text-sm text-gray-500">{movies.length} items</p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+          <h2 className="text-2xl font-bold dark:text-white">Movies</h2>
+          
+          <div className="flex items-center gap-4">
+            {/* Genre Filter untuk mobile */}
+            <div className="md:hidden">
+              <DropdownGenre 
+                selectedGenre={selectedGenre}
+                onGenreChange={setSelectedGenre}
+              />
+            </div>
+            
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {filteredMovies.length} {filteredMovies.length === 1 ? 'item' : 'items'}
+              {selectedGenre && ` in ${selectedGenre}`}
+              {query && ` matching "${query}"`}
+            </p>
+          </div>
         </div>
+
+        {/* Search info */}
+        {query && (
+          <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+            <p className="text-sm text-blue-700 dark:text-blue-300">
+              Showing results for: <strong>"{query}"</strong>
+              {filteredMovies.length === 0 && " - No matches found"}
+            </p>
+          </div>
+        )}
 
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="animate-pulse card p-6 rounded-2xl h-64" />
+              <div key={i} className="animate-pulse bg-gray-300 dark:bg-gray-700 p-6 rounded-2xl h-64" />
             ))}
           </div>
         ) : (
-          <motion.div initial="hidden" animate="show" variants={gridVariants} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <motion.div 
+            key={`movies-grid-${selectedGenre}-${query}`} // KEY UNIK UNTUK FORCE RE-RENDER
+            initial="hidden" 
+            animate="show" 
+            variants={gridVariants} 
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          >
             <AnimatePresence>
-              {movies.map(m => (
-                <motion.div key={m.id} variants={itemVariants}>
+              {filteredMovies.map(m => (
+                <motion.div 
+                  key={`${m.id}-${selectedGenre}`} // KEY UNIK DENGAN GENRE
+                  variants={itemVariants}
+                  layout // TAMBAHKAN LAYOUT PROP
+                >
                   <MovieCard movie={m} onDelete={handleDelete} />
                 </motion.div>
               ))}
             </AnimatePresence>
           </motion.div>
+        )}
+
+        {!loading && filteredMovies.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 dark:text-gray-400 text-lg">
+              {query && selectedGenre 
+                ? `No matches found for "${query}" in ${selectedGenre} genre`
+                : query 
+                ? `No matches found for "${query}"`
+                : selectedGenre 
+                ? `No movies found in ${selectedGenre} genre`
+                : 'No movies found'
+              }
+            </p>
+          </div>
         )}
       </div>
     </div>
