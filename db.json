@@ -20,7 +20,6 @@
       "year": 2010,
       "genre": "Sci-Fi",
       "poster": "/images/inception.jpg",
-
       "summary": "Dom Cobb, seorang pencuri profesional yang dapat memasuki mimpi seseorang, diberi misi untuk menanamkan sebuah ide ke dalam pikiran targetnya.",
       "producer": "Christopher Nolan, Emma Thomas",
       "cast": [
@@ -29,7 +28,6 @@
         "Elliot Page",
         "Tom Hardy"
       ],
-
       "rating": 0,
       "review": [],
       "reviews": [
@@ -41,14 +39,12 @@
         }
       ]
     },
-
     {
       "id": "2",
       "title": "Interstellar",
       "year": 2014,
       "genre": "Adventure",
       "poster": "/images/interstellar.jpg",
-
       "summary": "Sekelompok penjelajah luar angkasa melakukan perjalanan melalui wormhole untuk mencari planet baru demi menyelamatkan umat manusia.",
       "producer": "Christopher Nolan, Emma Thomas, Lynda Obst",
       "cast": [
@@ -57,7 +53,6 @@
         "Jessica Chastain",
         "Michael Caine"
       ],
-
       "reviews": [
         {
           "text": "film sad",
@@ -76,14 +71,12 @@
         }
       ]
     },
-
     {
       "id": "66f1",
       "title": "Harry Potter and the Half-Blood Prince",
       "year": 2009,
       "genre": "Fantasy",
       "poster": "/images/harrypotter6.jpg",
-
       "summary": "Harry menemukan sebuah buku tua milik Half-Blood Prince dan mengungkap rahasia masa lalu Voldemort.",
       "producer": "David Heyman, David Barron",
       "cast": [
@@ -92,19 +85,16 @@
         "Rupert Grint",
         "Alan Rickman"
       ],
-
       "rating": 5,
       "review": [],
       "reviews": []
     },
-
     {
       "id": "6e29",
       "title": "La La Land",
       "year": 2017,
       "genre": "Drama",
       "poster": "/images/lalaland.jpg",
-
       "summary": "Seorang pianis jazz dan seorang aktris muda berjuang mengejar impian mereka di Los Angeles.",
       "producer": "Fred Berger, Jordan Horowitz, Gary Gilbert",
       "cast": [
@@ -113,19 +103,16 @@
         "John Legend",
         "Rosemarie DeWitt"
       ],
-
       "rating": 4,
       "review": [],
       "reviews": []
     },
-
     {
       "id": "2d41",
       "title": "The Lord of The Rings: The Return of the King",
       "year": 2003,
       "genre": "Fantasy",
       "poster": "/images/lotr3.jpg",
-
       "summary": "Frodo dan Sam mencapai Mordor untuk menghancurkan One Ring, sementara Aragorn memimpin pasukan melawan Sauron.",
       "producer": "Peter Jackson, Fran Walsh, Barrie M. Osborne",
       "cast": [
@@ -134,7 +121,266 @@
         "Ian McKellen",
         "Sean Astin"
       ],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
 
+    {
+      "id": "s001",
+      "title": "Soul",
+      "year": 2020,
+      "genre": "Animation",
+      "poster": "/images/soul.jpeg",
+      "summary": "Seorang guru musik bernama Joe Gardner mengalami pengalaman mendekati kematian dan berusaha kembali ke tubuhnya sambil belajar arti kehidupan.",
+      "producer": "Dana Murray",
+      "cast": ["Jamie Foxx", "Tina Fey", "Graham Norton", "Questlove"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "s002",
+      "title": "A Man Called Otto",
+      "year": 2022,
+      "genre": "Drama",
+      "poster": "/images/otto.jpeg",
+      "summary": "Otto, seorang pria tua pemarah yang kehilangan istrinya, mulai berubah ketika bertemu tetangga baru yang penuh kehidupan.",
+      "producer": "Fredrik Wikström Nicastro, Rita Wilson, Tom Hanks",
+      "cast": [
+        "Tom Hanks",
+        "Mariana Treviño",
+        "Rachel Keller",
+        "Manuel Garcia-Rulfo"
+      ],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "s003",
+      "title": "Friends: Mononoke Shima no Naki",
+      "year": 2011,
+      "genre": "Animation",
+      "poster": "/images/naki.jpeg",
+      "summary": "Persahabatan antara seorang anak manusia dan monster bernama Naki membawa keduanya dalam petualangan yang menyentuh hati.",
+      "producer": "Takashi Yamazaki",
+      "cast": [
+        "Satoshi Tsumabuki",
+        "Kōichi Yamadera",
+        "Shido Nakamura",
+        "Kōji Yakusho"
+      ],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "s004",
+      "title": "Forrest Gump",
+      "year": 1994,
+      "genre": "Drama",
+      "poster": "/images/forrestgump.jpeg",
+      "summary": "Kisah seorang pria sederhana namun berhati tulus yang tanpa sadar terlibat dalam berbagai peristiwa penting Amerika Serikat.",
+      "producer": "Wendy Finerman, Steve Tisch, Steve Starkey",
+      "cast": ["Tom Hanks", "Robin Wright", "Gary Sinise"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "s005",
+      "title": "Hacksaw Ridge",
+      "year": 2016,
+      "genre": "War",
+      "poster": "/images/hacksaw.jpeg",
+      "summary": "Kisah nyata Desmond Doss, seorang prajurit medis yang menolak membawa senjata namun tetap menjadi pahlawan di medan perang.",
+      "producer": "Bill Mechanic, David Permut, Terry Benedict",
+      "cast": ["Andrew Garfield", "Sam Worthington", "Vince Vaughn"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "s006",
+      "title": "Shutter Island",
+      "year": 2010,
+      "genre": "Thriller",
+      "poster": "/images/shutterisland.jpeg",
+      "summary": "Dua US Marshal menyelidiki hilangnya seorang pasien dari rumah sakit jiwa di sebuah pulau terpencil.",
+      "producer": "Brad Fischer, Martin Scorsese",
+      "cast": ["Leonardo DiCaprio", "Mark Ruffalo", "Ben Kingsley"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "s007",
+      "title": "Get Out",
+      "year": 2017,
+      "genre": "Horror",
+      "poster": "/images/getout.jpeg",
+      "summary": "Seorang pria kulit hitam mengunjungi keluarga pacarnya dan menemukan rahasia mengerikan yang tersembunyi di rumah itu.",
+      "producer": "Jordan Peele, Jason Blum",
+      "cast": ["Daniel Kaluuya", "Allison Williams", "Bradley Whitford"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "s008",
+      "title": "The Truman Show",
+      "year": 1998,
+      "genre": "Drama",
+      "poster": "/images/trumanshow.jpeg",
+      "summary": "Truman Burbank tanpa sadar hidup dalam acara TV realitas yang disiarkan ke seluruh dunia.",
+      "producer": "Scott Rudin, Andrew Niccol, Edward S. Feldman",
+      "cast": ["Jim Carrey", "Laura Linney", "Ed Harris"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "s009",
+      "title": "Zootopia",
+      "year": 2016,
+      "genre": "Animation",
+      "poster": "/images/zootopia.jpeg",
+      "summary": "Seekor kelinci polisi dan seekor rubah penipu bekerja sama mengungkap konspirasi di kota hewan Zootopia.",
+      "producer": "Clark Spencer",
+      "cast": ["Ginnifer Goodwin", "Jason Bateman", "Idris Elba"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+
+   
+    {
+      "id": "f001",
+      "title": "The Dark Knight",
+      "year": 2008,
+      "genre": "Action",
+      "poster": "/images/darkknight.jpeg",
+      "summary": "Batman berhadapan dengan Joker yang menyebabkan kekacauan besar di Gotham.",
+      "producer": "Christopher Nolan, Emma Thomas",
+      "cast": ["Christian Bale", "Heath Ledger", "Aaron Eckhart"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "f002",
+      "title": "Parasite",
+      "year": 2019,
+      "genre": "Thriller",
+      "poster": "/images/parasite.jpeg",
+      "summary": "Keluarga miskin menyusup ke keluarga kaya, namun situasi berubah tidak terkendali.",
+      "producer": "Bong Joon-ho, Kwak Sin-ae",
+      "cast": ["Song Kang-ho", "Choi Woo-shik", "Park So-dam"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "f003",
+      "title": "Whiplash",
+      "year": 2014,
+      "genre": "Drama",
+      "poster": "/images/whiplash.jpeg",
+      "summary": "Seorang drummer muda menghadapi pelatih yang keras demi mencapai kesempurnaan.",
+      "producer": "Jason Reitman, Helen Estabrook",
+      "cast": ["Miles Teller", "J.K. Simmons"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "f004",
+      "title": "Spirited Away",
+      "year": 2001,
+      "genre": "Animation",
+      "poster": "/images/spiritedaway.jpeg",
+      "summary": "Seorang gadis kecil terjebak di dunia roh dan harus menyelamatkan orangtuanya.",
+      "producer": "Toshio Suzuki",
+      "cast": ["Rumi Hiiragi", "Miyu Irino"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "f005",
+      "title": "John Wick",
+      "year": 2014,
+      "genre": "Action",
+      "poster": "/images/johnwick.jpeg",
+      "summary": "Seorang mantan pembunuh bayaran kembali ke dunia kriminal setelah anjingnya dibunuh.",
+      "producer": "Basil Iwanyk",
+      "cast": ["Keanu Reeves", "Michael Nyqvist", "Willem Dafoe"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "f006",
+      "title": "Coco",
+      "year": 2017,
+      "genre": "Animation",
+      "poster": "/images/coco.jpeg",
+      "summary": "Seorang anak laki-laki melakukan perjalanan ke Negeri Orang Mati untuk mencari jati diri dan keluarganya.",
+      "producer": "Darla K. Anderson",
+      "cast": ["Anthony Gonzalez", "Gael García Bernal"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "f007",
+      "title": "The Social Network",
+      "year": 2010,
+      "genre": "Drama",
+      "poster": "/images/socialnetwork.jpeg",
+      "summary": "Kisah awal mula Facebook dan konflik hukum yang terjadi.",
+      "producer": "Scott Rudin, Dana Brunetti",
+      "cast": ["Jesse Eisenberg", "Andrew Garfield", "Justin Timberlake"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "f008",
+      "title": "The Shawshank Redemption",
+      "year": 1994,
+      "genre": "Drama",
+      "poster": "/images/shawshank.jpeg",
+      "summary": "Seorang pria dipenjara seumur hidup meski tidak bersalah, dan membangun persahabatan kuat dengan sesama narapidana.",
+      "producer": "Niki Marvin",
+      "cast": ["Tim Robbins", "Morgan Freeman"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "f009",
+      "title": "The Matrix",
+      "year": 1999,
+      "genre": "Sci-Fi",
+      "poster": "/images/matrix.jpeg",
+      "summary": "Seorang hacker mengetahui kenyataan dunia sebenarnya dan menjadi harapan umat manusia.",
+      "producer": "Joel Silver",
+      "cast": ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
+      "rating": 0,
+      "review": [],
+      "reviews": []
+    },
+    {
+      "id": "f010",
+      "title": "Joker",
+      "year": 2019,
+      "genre": "Crime",
+      "poster": "/images/joker.jpeg",
+      "summary": "Kisah Arthur Fleck yang berubah menjadi Joker, ikon kekacauan Gotham.",
+      "producer": "Todd Phillips, Bradley Cooper",
+      "cast": ["Joaquin Phoenix", "Robert De Niro"],
       "rating": 0,
       "review": [],
       "reviews": []
