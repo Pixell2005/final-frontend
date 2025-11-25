@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPlay } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
 
 export default function MovieCard({ movie, onDelete }) {
   const { user } = useAuth();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const isAdmin = user?.role === "admin";
 
@@ -20,12 +21,23 @@ export default function MovieCard({ movie, onDelete }) {
     setImageLoaded(true);
   };
 
+  // Function to handle trailer button click
+  const handleTrailerClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (movie.trailer) {
+      window.open(movie.trailer, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <motion.div
       layout
-      key={`movie-${movie.id}-${movie.genre}`} // KEY UNIK DENGAN GENRE
+      key={`movie-${movie.id}-${movie.genre}`}
       whileHover={{ scale: 1.02 }}
-      className="card rounded-2xl overflow-hidden shadow-lg bg-white dark:bg-gray-900"
+      className="card rounded-2xl overflow-hidden shadow-lg bg-white dark:bg-gray-900 relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Card clickable untuk semua user */}
       <Link to={`/movies/${movie.id}`}>
@@ -66,6 +78,26 @@ export default function MovieCard({ movie, onDelete }) {
           <h3 className="absolute left-4 bottom-4 text-white font-bold text-lg drop-shadow-lg line-clamp-2">
             {movie.title}
           </h3>
+
+          {/* Trailer Overlay Button */}
+          {movie.trailer && isHovered && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+            >
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={handleTrailerClick}
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-semibold transition-colors duration-300 shadow-lg"
+              >
+                <FiPlay className="text-xl" />
+                Watch Trailer
+              </motion.button>
+            </motion.div>
+          )}
         </div>
       </Link>
 
