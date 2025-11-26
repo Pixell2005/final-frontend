@@ -1,68 +1,67 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import { FiSun, FiMoon } from "react-icons/fi";
 import DropdownGenre from "../pages/DropdownGenre";
 import SearchBar from "./SearchBar";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
 
-  // Handle search input change
+  // --- HIDE NAVBAR ON LOGIN PAGE ---
+  if (location.pathname === "/login") return null;
+
+  // Handle search input
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchQuery(value);
-    // Dispatch custom event untuk search global
-    window.dispatchEvent(new CustomEvent('global-search', { detail: value }));
+    window.dispatchEvent(new CustomEvent("global-search", { detail: value }));
   };
 
-  // Handle genre filter change
+  // Genre
   const handleGenreChange = (genre) => {
-    window.dispatchEvent(new CustomEvent('global-genre-filter', { detail: genre }));
+    window.dispatchEvent(
+      new CustomEvent("global-genre-filter", { detail: genre })
+    );
   };
 
-  // Clear search when navigating away
   useEffect(() => {
     const handleLocationChange = () => {
-      setSearchQuery('');
-      window.dispatchEvent(new CustomEvent('global-search', { detail: '' }));
+      setSearchQuery("");
+      window.dispatchEvent(new CustomEvent("global-search", { detail: "" }));
     };
 
-    window.addEventListener('popstate', handleLocationChange);
-    
+    window.addEventListener("popstate", handleLocationChange);
+
     return () => {
-      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener("popstate", handleLocationChange);
     };
   }, []);
 
   return (
     <nav className="px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-gray-900 shadow">
-      {/* Logo */}
-      <Link to="/" className="text-2xl font-bold dark:text-white flex-shrink-0">
+      <Link to="/" className="text-2xl font-bold dark:text-white">
         🎬 MovieApp
       </Link>
 
-      {/* Search Bar - Center */}
       <div className="w-full md:w-auto md:flex-1 md:max-w-md">
-        <SearchBar 
+        <SearchBar
           value={searchQuery}
           onChange={handleSearchChange}
           placeholder="Search movies by title..."
         />
       </div>
 
-      {/* Right side items */}
-      <div className="flex items-center gap-4 flex-shrink-0">
-        {/* GENRE FILTER DROPDOWN */}
-        <DropdownGenre 
+      <div className="flex items-center gap-4">
+        <DropdownGenre
           onGenreChange={handleGenreChange}
           className="hidden md:block"
         />
 
-        {/* DARK MODE BUTTON */}
         <button
           onClick={toggleTheme}
           className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"
