@@ -15,7 +15,6 @@ export default function Hero() {
   const [index, setIndex] = useState(0);
   const [pause, setPause] = useState(false);
 
-  // AUTO SLIDE
   useEffect(() => {
     if (pause) return;
     const interval = setInterval(() => {
@@ -28,9 +27,16 @@ export default function Hero() {
   const prevSlide = () => setIndex((prev) => (prev - 1 + posters.length) % posters.length);
 
   return (
-    <section className="relative overflow-hidden px-10 py-24 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200">
-      {/* BACKGROUND GRADIENT OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-gray-300/30 backdrop-blur-sm"></div>
+    <section className="relative overflow-hidden px-10 py-24 bg-[#0a0f24]">
+      
+      {/* 🔥 GRADIENT GLOW SENADA HOME */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-20%] left-[-15%] w-[480px] h-[480px] 
+            bg-blue-700 opacity-25 blur-[150px] rounded-full"></div>
+
+        <div className="absolute bottom-[-20%] right-[-10%] w-[520px] h-[520px] 
+            bg-purple-600 opacity-20 blur-[170px] rounded-full"></div>
+      </div>
 
       {/* TEXT */}
       <motion.div
@@ -39,13 +45,13 @@ export default function Hero() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-4xl relative z-10"
       >
-        <h1 className="text-6xl font-extrabold text-gray-900 leading-tight drop-shadow-md">
+        <h1 className="text-6xl font-extrabold text-white leading-tight drop-shadow-lg">
           Discover movies.
           <br /> Write reviews.
           <br /> Share feelings.
         </h1>
 
-        <p className="mt-4 text-gray-700 text-lg max-w-lg drop-shadow-sm">
+        <p className="mt-4 text-gray-300 text-lg max-w-lg drop-shadow">
           Join our community of movie enthusiasts today!
         </p>
 
@@ -53,7 +59,7 @@ export default function Hero() {
           {user?.role === "admin" && (
             <Link
               to="/admin/add"
-              className="px-6 py-3 bg-blue-600 text-white rounded-2xl shadow-xl hover:bg-blue-700 transition font-medium backdrop-blur"
+              className="px-6 py-3 bg-blue-600 text-white rounded-2xl shadow-lg hover:bg-blue-700 transition font-medium"
             >
               Add a Movie
             </Link>
@@ -61,7 +67,7 @@ export default function Hero() {
 
           <Link
             to="/"
-            className="px-6 py-3 bg-white/70 border rounded-2xl shadow-xl hover:bg-white transition font-medium backdrop-blur"
+            className="px-6 py-3 bg-white/10 border border-white/20 text-white rounded-2xl shadow-lg hover:bg-white/20 transition font-medium backdrop-blur"
           >
             Browse
           </Link>
@@ -77,8 +83,6 @@ export default function Hero() {
         onMouseEnter={() => setPause(true)}
         onMouseLeave={() => setPause(false)}
       >
-        
-
         <AnimatePresence>
           <motion.img
             key={index}
@@ -94,14 +98,14 @@ export default function Hero() {
         {/* BUTTONS */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/60 hover:bg-white text-gray-900 p-3 rounded-full shadow-xl hidden group-hover:flex transition backdrop-blur-md"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/40 hover:bg-white text-gray-900 p-3 rounded-full shadow-xl hidden group-hover:flex transition backdrop-blur-md"
         >
           ‹
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/60 hover:bg-white text-gray-900 p-3 rounded-full shadow-xl hidden group-hover:flex transition backdrop-blur-md"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/40 hover:bg-white text-gray-900 p-3 rounded-full shadow-xl hidden group-hover:flex transition backdrop-blur-md"
         >
           ›
         </button>

@@ -12,86 +12,73 @@ export default function MovieCard({ movie, onDelete }) {
 
   const isAdmin = user?.role === "admin";
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
-
-  const handleImageError = () => {
-    setImageError(true);
-    setImageLoaded(true);
-  };
-
-  // Function to handle trailer button click
-  const handleTrailerClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (movie.trailer) {
-      window.open(movie.trailer, "_blank", "noopener,noreferrer");
-    }
-  };
-
   return (
     <motion.div
       layout
       key={`movie-${movie.id}-${movie.genre}`}
-      whileHover={{ scale: 1.02 }}
-      className="card rounded-2xl overflow-hidden shadow-lg bg-white dark:bg-gray-900 relative"
+      whileHover={{ scale: 1.03 }}
+      className="rounded-2xl overflow-hidden shadow-xl 
+                 bg-white/5 backdrop-blur-md border border-white/10 
+                 transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Card clickable untuk semua user */}
       <Link to={`/movies/${movie.id}`}>
         <div className="relative">
-          {/* Image dengan loading state */}
-          <div className="w-full h-64 bg-gray-200 dark:bg-gray-800 relative overflow-hidden">
+          {/* POSTER PORTRAIT */}
+          <div className="w-full aspect-[2/3] bg-gray-800 relative overflow-hidden">
+
             {!imageLoaded && !imageError && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="animate-pulse bg-gray-300 dark:bg-gray-700 w-full h-full"></div>
-              </div>
+              <div className="absolute inset-0 animate-pulse bg-gray-700"></div>
             )}
-            
+
             {imageError ? (
-              <div className="w-full h-full flex items-center justify-center bg-gray-300 dark:bg-gray-700">
-                <span className="text-gray-500 dark:text-gray-400 text-sm">No Image</span>
+              <div className="flex items-center justify-center w-full h-full">
+                <span className="text-gray-400">No Image</span>
               </div>
             ) : (
               <motion.img
                 src={movie.poster}
                 alt={movie.title}
-                className={`w-full h-64 object-cover transition-opacity duration-300 ${
-                  imageLoaded ? 'opacity-100' : 'opacity-0'
+                className={`w-full h-full object-cover transition-opacity duration-500 ${
+                  imageLoaded ? "opacity-100" : "opacity-0"
                 }`}
-                initial={{ scale: 0.98 }}
-                whileHover={{ scale: 1.04 }}
-                transition={{ duration: 0.5 }}
-                onLoad={handleImageLoad}
-                onError={handleImageError}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => {
+                  setImageLoaded(true);
+                  setImageError(true);
+                }}
                 loading="lazy"
               />
             )}
           </div>
 
-          {/* Gradient */}
+          {/* GRADIENT BAWAH */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
 
-          {/* Title */}
-          <h3 className="absolute left-4 bottom-4 text-white font-bold text-lg drop-shadow-lg line-clamp-2">
+          {/* TITLE */}
+          <h3 className="absolute left-4 bottom-4 text-white font-bold text-lg drop-shadow-lg">
             {movie.title}
           </h3>
 
-          {/* Trailer Overlay Button */}
+          {/* TRAILER HOVER */}
           {movie.trailer && isHovered && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+              className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm"
             >
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={handleTrailerClick}
-                className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full font-semibold transition-colors duration-300 shadow-lg"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open(movie.trailer, "_blank");
+                }}
+                className="flex items-center gap-2 
+                  bg-gradient-to-r from-blue-500 to-purple-600
+                  hover:from-blue-600 hover:to-purple-700
+                  text-white px-6 py-3 rounded-full font-semibold shadow-xl"
               >
                 <FiPlay className="text-xl" />
                 Watch Trailer
@@ -101,44 +88,41 @@ export default function MovieCard({ movie, onDelete }) {
         </div>
       </Link>
 
+      {/* INFO BAWAH */}
       <div className="p-4 flex items-center justify-between">
-        <div className="flex flex-col">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+        <div>
+          <p className="text-sm text-gray-300">
             {movie.year} • {movie.genre}
           </p>
-          {/* Rating */}
+
           <div className="flex items-center gap-1 mt-1">
             {Array.from({ length: 5 }).map((_, i) => (
               <span
                 key={i}
                 className={`text-sm ${
-                  i < Math.floor(movie.rating || 0) 
-                    ? 'text-yellow-400' 
-                    : 'text-gray-300 dark:text-gray-600'
+                  i < Math.floor(movie.rating || 0)
+                    ? "text-yellow-400"
+                    : "text-gray-500"
                 }`}
               >
                 ★
               </span>
             ))}
-            <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">
-              ({movie.rating || 0})
-            </span>
           </div>
         </div>
 
-        {/* ADMIN ONLY — bukan user biasa */}
         {isAdmin && (
           <div className="flex items-center gap-2">
             <Link
               to={`/admin/edit/${movie.id}`}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              className="p-2 hover:bg-white/10 rounded-lg"
             >
-              <FiEdit className="text-blue-500" />
+              <FiEdit className="text-blue-400" />
             </Link>
 
             <button
-              onClick={() => onDelete && onDelete(movie.id)}
-              className="p-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900 transition text-red-500"
+              onClick={() => onDelete(movie.id)}
+              className="p-2 hover:bg-red-500/20 rounded-lg text-red-400"
             >
               <FiTrash2 />
             </button>

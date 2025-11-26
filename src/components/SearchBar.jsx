@@ -1,13 +1,17 @@
 import React from 'react';
+import { FiSearch } from "react-icons/fi";
 
-export default function SearchBar({ value, onChange, placeholder = "Search movies by title..." }) {
+export default function SearchBar({ value, onChange, placeholder = "Search..." }) {
   return (
-    <div className="mb-0">
+    <div className="relative group">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <FiSearch className="text-gray-400 group-focus-within:text-blue-500 transition-colors" />
+      </div>
       <input
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+        className="input-modern pl-10" // Menggunakan class custom dari index.css
       />
     </div>
   );

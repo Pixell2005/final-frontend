@@ -1,27 +1,65 @@
 @import "tailwindcss";
 
-:root {
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --text: #0f172a;
+@layer base {
+  :root {
+    /* --- Light Mode Variables --- */
+    --bg-gradient-start: #e0e7ff; /* Biru muda sangat pucat */
+    --bg-gradient-end: #f3f4f6;   /* Abu-abu terang */
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+  }
+
+  .dark {
+    /* --- Dark Mode Variables (Seperti Login Page) --- */
+    --bg-gradient-start: #0f172a; /* Biru malam gelap */
+    --bg-gradient-end: #000000;   /* Hitam */
+    --glass-bg: rgba(30, 41, 59, 0.7); /* Slate gelap transparan */
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+  }
+
+  body {
+    @apply text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300;
+    font-family: 'Inter', sans-serif;
+    
+    /* Global Background Gradient */
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    background-attachment: fixed; /* Agar background diam saat discroll */
+  }
 }
 
-.dark {
-  --bg: #0b1220;
-  --card: #07101a;
-  --text: #e6eef8;
-}
+@layer components {
+  /* --- 1. EFEK KACA (GLASSMORPHISM) --- */
+  .glass-panel {
+    @apply backdrop-blur-md shadow-xl border transition-all duration-300;
+    background-color: var(--glass-bg);
+    border-color: var(--glass-border);
+  }
 
-html, body, #root { height: 100%; }
+  /* --- 2. INPUT MODERN --- */
+  .input-modern {
+    @apply w-full px-4 py-3 rounded-xl outline-none transition-all duration-300
+    bg-white/50 dark:bg-black/30 
+    border border-gray-300 dark:border-gray-700
+    text-gray-900 dark:text-white
+    placeholder-gray-500 dark:placeholder-gray-400
+    focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white/80 dark:focus:bg-black/50;
+  }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  transition: background-color 0.35s ease, color 0.35s ease;
-}
+  /* --- 3. TOMBOL GRADIENT --- */
+  .btn-gradient {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 
+    text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-blue-500/30
+    transform transition-all active:scale-95 hover:scale-[1.02];
+  }
 
-/* small utility for card backgrounds */
-.card {
-  background: var(--card);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.35s ease;
+  /* --- 4. TOMBOL SECONDARY --- */
+  .btn-secondary {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors
+    bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200
+    hover:bg-gray-300 dark:hover:bg-gray-600;
+  }
 }
