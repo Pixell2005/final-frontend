@@ -1,4 +1,31 @@
 {
+  "hero": [
+    { "movieId": "1", "image": "/images/landscape/inception.jpg" },
+    { "movieId": "2", "image": "/images/landscape/interstellar.jpg" },
+    { "movieId": "66f1", "image": "/images/landscape/harrypotter6.jpg" },
+    { "movieId": "6e29", "image": "/images/landscape/lalaland.jpg" },
+    { "movieId": "2d41", "image": "/images/landscape/lotr3.jpg" },
+    { "movieId": "s001", "image": "/images/landscape/soul.jpg" },
+    { "movieId": "s002", "image": "/images/landscape/otto.jpg" },
+    { "movieId": "s003", "image": "/images/landscape/naki.jpg" },
+    { "movieId": "s004", "image": "/images/landscape/forrestgump.jpg" },
+    { "movieId": "s005", "image": "/images/landscape/hacksaw.jpg" },
+    { "movieId": "s006", "image": "/images/landscape/shutterisland.jpg" },
+    { "movieId": "s007", "image": "/images/landscape/getout.jpg" },
+    { "movieId": "s008", "image": "/images/landscape/truman.jpg" },
+    { "movieId": "s009", "image": "/images/landscape/zootopia.jpg" },
+    { "movieId": "f001", "image": "/images/landscape/darkknight.jpg" },
+    { "movieId": "f002", "image": "/images/landscape/parasite.jpg" },
+    { "movieId": "f003", "image": "/images/landscape/whiplash.jpg" },
+    { "movieId": "f004", "image": "/images/landscape/spiritedaway.jpg" },
+    { "movieId": "f005", "image": "/images/landscape/johnwick.jpg" },
+    { "movieId": "f006", "image": "/images/landscape/coco.jpg" },
+    { "movieId": "f007", "image": "/images/landscape/socialnetwork.jpg" },
+    { "movieId": "f008", "image": "/images/landscape/shawshank.jpg" },
+    { "movieId": "f009", "image": "/images/landscape/matrix.jpg" },
+    { "movieId": "f010", "image": "/images/landscape/joker.jpg" }
+  ],
+
   "users": [
     {
       "id": "1",
@@ -13,6 +40,7 @@
       "role": "user"
     }
   ],
+
   "movies": [
     {
       "id": "1",
@@ -40,6 +68,7 @@
         }
       ]
     },
+
     {
       "id": "2",
       "title": "Interstellar",
@@ -56,23 +85,12 @@
         "Michael Caine"
       ],
       "reviews": [
-        {
-          "text": "film sad",
-          "rating": 5,
-          "date": "2025-11-20T09:46:20.292Z"
-        },
-        {
-          "text": "a",
-          "rating": 3,
-          "date": "2025-11-20T09:46:42.533Z"
-        },
-        {
-          "text": "great",
-          "rating": 5,
-          "date": "2025-11-20T11:57:24.860Z"
-        }
+        { "text": "film sad", "rating": 5, "date": "2025-11-20T09:46:20.292Z" },
+        { "text": "a", "rating": 3, "date": "2025-11-20T09:46:42.533Z" },
+        { "text": "great", "rating": 5, "date": "2025-11-20T11:57:24.860Z" }
       ]
     },
+
     {
       "id": "66f1",
       "title": "Harry Potter and the Half-Blood Prince",
@@ -92,6 +110,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "6e29",
       "title": "La La Land",
@@ -101,16 +120,12 @@
       "trailer": "https://www.youtube.com/watch?v=0pdqf4P9MB8",
       "summary": "Seorang pianis jazz dan seorang aktris muda berjuang mengejar impian mereka di Los Angeles.",
       "producer": "Fred Berger, Jordan Horowitz, Gary Gilbert",
-      "cast": [
-        "Ryan Gosling",
-        "Emma Stone",
-        "John Legend",
-        "Rosemarie DeWitt"
-      ],
+      "cast": ["Ryan Gosling", "Emma Stone", "John Legend", "Rosemarie DeWitt"],
       "rating": 4,
       "review": [],
       "reviews": []
     },
+
     {
       "id": "2d41",
       "title": "The Lord of The Rings: The Return of the King",
@@ -120,16 +135,12 @@
       "trailer": "https://www.youtube.com/watch?v=r5X-hFf6Bwo",
       "summary": "Frodo dan Sam mencapai Mordor untuk menghancurkan One Ring, sementara Aragorn memimpin pasukan melawan Sauron.",
       "producer": "Peter Jackson, Fran Walsh, Barrie M. Osborne",
-      "cast": [
-        "Elijah Wood",
-        "Viggo Mortensen",
-        "Ian McKellen",
-        "Sean Astin"
-      ],
+      "cast": ["Elijah Wood", "Viggo Mortensen", "Ian McKellen", "Sean Astin"],
       "rating": 0,
       "review": [],
       "reviews": []
     },
+
     {
       "id": "s001",
       "title": "Soul",
@@ -144,6 +155,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "s002",
       "title": "A Man Called Otto",
@@ -153,16 +165,12 @@
       "trailer": "https://www.youtube.com/watch?v=eFYUX9l-m5I",
       "summary": "Otto, seorang pria tua pemarah yang kehilangan istrinya, mulai berubah ketika bertemu tetangga baru yang penuh kehidupan.",
       "producer": "Fredrik Wikström Nicastro, Rita Wilson, Tom Hanks",
-      "cast": [
-        "Tom Hanks",
-        "Mariana Treviño",
-        "Rachel Keller",
-        "Manuel Garcia-Rulfo"
-      ],
+      "cast": ["Tom Hanks", "Mariana Treviño", "Rachel Keller", "Manuel Garcia-Rulfo"],
       "rating": 0,
       "review": [],
       "reviews": []
     },
+
     {
       "id": "s003",
       "title": "Friends: Mononoke Shima no Naki",
@@ -172,16 +180,12 @@
       "trailer": "https://www.youtube.com/watch?v=example1",
       "summary": "Persahabatan antara seorang anak manusia dan monster bernama Naki membawa keduanya dalam petualangan yang menyentuh hati.",
       "producer": "Takashi Yamazaki",
-      "cast": [
-        "Satoshi Tsumabuki",
-        "Kōichi Yamadera",
-        "Shido Nakamura",
-        "Kōji Yakusho"
-      ],
+      "cast": ["Satoshi Tsumabuki", "Kōichi Yamadera", "Shido Nakamura", "Kōji Yakusho"],
       "rating": 0,
       "review": [],
       "reviews": []
     },
+
     {
       "id": "s004",
       "title": "Forrest Gump",
@@ -196,6 +200,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "s005",
       "title": "Hacksaw Ridge",
@@ -210,6 +215,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "s006",
       "title": "Shutter Island",
@@ -224,6 +230,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "s007",
       "title": "Get Out",
@@ -238,6 +245,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "s008",
       "title": "The Truman Show",
@@ -252,6 +260,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "s009",
       "title": "Zootopia",
@@ -266,6 +275,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f001",
       "title": "The Dark Knight",
@@ -280,6 +290,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f002",
       "title": "Parasite",
@@ -294,6 +305,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f003",
       "title": "Whiplash",
@@ -308,6 +320,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f004",
       "title": "Spirited Away",
@@ -322,6 +335,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f005",
       "title": "John Wick",
@@ -336,6 +350,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f006",
       "title": "Coco",
@@ -350,6 +365,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f007",
       "title": "The Social Network",
@@ -364,6 +380,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f008",
       "title": "The Shawshank Redemption",
@@ -378,6 +395,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f009",
       "title": "The Matrix",
@@ -392,6 +410,7 @@
       "review": [],
       "reviews": []
     },
+
     {
       "id": "f010",
       "title": "Joker",
