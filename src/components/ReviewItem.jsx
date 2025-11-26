@@ -14,15 +14,26 @@ export default function ReviewItem({ review }) {
       initial="hidden"
       animate="enter"
       exit="exit"
-      className="bg-gray-100 p-4 rounded-xl shadow-sm border border-gray-200"
+      className="
+        bg-gray-100 dark:bg-slate-800 
+        text-gray-800 dark:text-gray-200
+        p-4 rounded-xl shadow-sm 
+        border border-gray-200 dark:border-slate-700
+        transition-colors duration-500
+      "
     >
       <div className="flex items-center justify-between">
-        <p className="font-semibold text-yellow-600">⭐ {review.rating}/5</p>
-        <p className="text-gray-400 text-sm">
+        <p className="font-semibold text-yellow-600 dark:text-yellow-400">
+          ⭐ {review.rating}/5
+        </p>
+        <p className="text-gray-400 dark:text-gray-500 text-sm">
           {review.date ? new Date(review.date).toLocaleString() : ""}
         </p>
       </div>
-      <p className="text-gray-700 mt-2">{review.text}</p>
+
+      <p className="mt-2">
+        {review.text}
+      </p>
     </motion.div>
   );
 }
