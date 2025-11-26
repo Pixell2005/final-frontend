@@ -27,17 +27,14 @@ export default function Home() {
     fetchAllMovies(); 
   }, []);
 
-  // Listen global-search event from Navbar
   useEffect(() => {
     function onSearch(e) {
-      const q = e.detail || '';
-      setQuery(q);
+      setQuery(e.detail || '');
     }
     window.addEventListener('global-search', onSearch);
     return () => window.removeEventListener('global-search', onSearch);
   }, []);
 
-  // Listen global-genre-filter event from Navbar
   useEffect(() => {
     function onGenreFilter(e) {
       setSelectedGenre(e.detail || '');
@@ -76,36 +73,44 @@ export default function Home() {
   };
 
   return (
-    // 🔥 DITAMBAHKAN WRAPPER BACKGROUND NAVY + GRADIENT
-    <div className="relative min-h-screen bg-[#0a0f24] text-white overflow-hidden">
+    <div 
+      className="theme-fade relative min-h-screen transition-all duration-300"
+      style={{
+        background: `linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end))`,
+        color: "var(--text-primary)"
+      }}
+    >
 
-      {/* GRADIENT GLOW ALA LOGIN */}
+      {/* Glow Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-15%] left-[-10%] w-[420px] h-[420px] 
-            bg-blue-600 opacity-25 rounded-full blur-[130px]"></div>
-
+                        bg-blue-300 dark:bg-blue-600 opacity-25 
+                        rounded-full blur-[130px]"></div>
         <div className="absolute bottom-[-15%] right-[-10%] w-[500px] h-[500px] 
-            bg-purple-600 opacity-20 rounded-full blur-[150px]"></div>
+                        bg-purple-300 dark:bg-purple-600 opacity-20 
+                        rounded-full blur-[150px]"></div>
       </div>
 
-      {/* 🔥 Semua konten asli tetap utuh */}
       <div className="relative z-10">
         <Hero />
 
         <div className="container mx-auto px-6">
+
+          {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-            <h2 className="text-2xl font-bold dark:text-white">Movies</h2>
-            
+            <h2 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+              Movies
+            </h2>
+
             <div className="flex items-center gap-4">
-              {/* Genre Filter untuk mobile */}
               <div className="md:hidden">
                 <DropdownGenre 
                   selectedGenre={selectedGenre}
                   onGenreChange={setSelectedGenre}
                 />
               </div>
-              
-              <p className="text-sm text-gray-300">
+
+              <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
                 {filteredMovies.length} {filteredMovies.length === 1 ? 'item' : 'items'}
                 {selectedGenre && ` in ${selectedGenre}`}
                 {query && ` matching "${query}"`}
@@ -113,19 +118,25 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Search Info */}
           {query && (
-            <div className="mb-4 p-3 bg-blue-50/10 dark:bg-blue-900/20 rounded-lg">
-              <p className="text-sm text-blue-300">
+            <div 
+              className="mb-4 p-3 rounded-lg glass-panel"
+            >
+              <p style={{ color: "var(--text-secondary)" }}>
                 Showing results for: <strong>"{query}"</strong>
-                {filteredMovies.length === 0 && " - No matches found"}
               </p>
             </div>
           )}
 
+          {/* Loading Skeleton */}
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="animate-pulse bg-gray-700/50 p-6 rounded-2xl h-64" />
+                <div 
+                  key={i} 
+                  className="animate-pulse rounded-2xl h-64 glass-panel"
+                />
               ))}
             </div>
           ) : (
@@ -150,20 +161,21 @@ export default function Home() {
             </motion.div>
           )}
 
+          {/* Empty State */}
           {!loading && filteredMovies.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-400 text-lg">
+              <p style={{ color: "var(--text-secondary)" }} className="text-lg">
                 {query && selectedGenre 
                   ? `No matches found for "${query}" in ${selectedGenre} genre`
                   : query 
                   ? `No matches found for "${query}"`
                   : selectedGenre 
                   ? `No movies found in ${selectedGenre} genre`
-                  : 'No movies found'
-                }
+                  : 'No movies found'}
               </p>
             </div>
           )}
+
         </div>
       </div>
     </div>

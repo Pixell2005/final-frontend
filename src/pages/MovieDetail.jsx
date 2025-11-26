@@ -7,9 +7,9 @@ import { useAuth } from "../context/AuthContext";
 export default function MovieDetail() {
   const { id } = useParams();
   const { user } = useAuth();
+
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(5);
 
@@ -53,7 +53,7 @@ export default function MovieDetail() {
       setMovie(updatedMovie);
       setReviewText("");
       setRating(5);
-    } catch (err) {
+    } catch {
       alert("Failed to add review");
     }
   }
@@ -65,24 +65,26 @@ export default function MovieDetail() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="max-w-5xl mx-auto mt-8 p-4"
+      className="max-w-5xl mx-auto mt-8 p-4 text-gray-900 dark:text-gray-100"
     >
+      {/* BACK BUTTON */}
       <motion.div whileHover={{ x: -3 }}>
         <Link
           to="/"
-          className="inline-block mb-6 text-blue-600 font-medium hover:underline"
+          className="inline-block mb-6 font-medium text-blue-600 dark:text-blue-400 hover:underline"
         >
           ← Back to Home
         </Link>
       </motion.div>
 
       <div className="flex flex-col md:flex-row gap-10">
+        {/* POSTER IMAGE */}
         <motion.img
           src={movie.poster}
           alt={movie.title}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={{ duration: 0.7 }}
           className="w-full md:w-80 rounded-xl shadow-2xl object-cover"
         />
 
@@ -90,44 +92,54 @@ export default function MovieDetail() {
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6 }}
           className="flex-1"
         >
-          <h1 className="text-4xl font-extrabold mb-2">
-            {movie.title}{" "}
-            <span className="text-gray-500 text-2xl">({movie.year})</span>
+          {/* TITLE */}
+          <h1 className="text-4xl font-extrabold mb-2 text-gray-900 dark:text-gray-100">
+            {movie.title}
+            <span className="text-2xl text-gray-700 dark:text-gray-300">
+              {" "}
+              ({movie.year})
+            </span>
           </h1>
 
-          <p className="text-lg text-gray-600 mb-4">{movie.genre}</p>
+          <p className="text-lg text-gray-800 dark:text-gray-300 mb-4">
+            {movie.genre}
+          </p>
 
           {/* SUMMARY */}
-          <p className="text-gray-800 mb-4 leading-relaxed">
+          <p className="mb-4 leading-relaxed text-gray-900 dark:text-gray-200">
             {movie.summary || "No summary available."}
           </p>
 
           {/* PRODUCER */}
           <div className="mb-4">
-            <h3 className="text-xl font-semibold mb-1">Producer</h3>
-            <p className="text-gray-700">{movie.producer || "Unknown"}</p>
+            <h3 className="text-xl font-semibold">Producer</h3>
+            <p className="text-gray-800 dark:text-gray-300">
+              {movie.producer || "Unknown"}
+            </p>
           </div>
 
           {/* CAST */}
           <div className="mb-6">
-            <h3 className="text-xl font-semibold mb-1">Cast</h3>
-            {movie.cast && movie.cast.length > 0 ? (
-              <ul className="list-disc list-inside text-gray-700">
+            <h3 className="text-xl font-semibold">Cast</h3>
+            {movie.cast?.length > 0 ? (
+              <ul className="list-disc list-inside text-gray-900 dark:text-gray-200">
                 {movie.cast.map((actor, i) => (
                   <li key={i}>{actor}</li>
                 ))}
               </ul>
             ) : (
-              <p className="text-gray-500">No cast information.</p>
+              <p className="text-gray-500 dark:text-gray-400">
+                No cast information.
+              </p>
             )}
           </div>
 
           {/* RATING */}
           {movie.reviews.length > 0 ? (
-            <p className="text-yellow-500 text-xl font-semibold mb-4">
+            <p className="text-xl font-semibold mb-4 text-yellow-500">
               ⭐
               {(
                 movie.reviews.reduce((a, b) => a + b.rating, 0) /
@@ -136,38 +148,44 @@ export default function MovieDetail() {
               / 5
             </p>
           ) : (
-            <p className="text-gray-500 mb-4">No ratings yet</p>
+            <p className="text-gray-500 dark:text-gray-400 mb-4">
+              No ratings yet
+            </p>
           )}
 
-          {/* EDIT BUTTON (ADMIN) */}
+          {/* EDIT MOVIE (ADMIN ONLY) */}
           {user?.role === "admin" && (
             <Link
               to={`/admin/edit/${movie.id}`}
-              className="mt-4 inline-block px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+              className="px-5 py-2 inline-block bg-blue-600 text-white dark:bg-blue-500 rounded-lg shadow hover:bg-blue-700 dark:hover:bg-blue-600"
             >
               Edit Movie
             </Link>
           )}
 
-          <hr className="my-6" />
+          <hr className="my-6 border-gray-300 dark:border-gray-700" />
 
           {/* REVIEWS */}
           <h2 className="text-2xl font-bold mb-3">Reviews</h2>
 
           {movie.reviews.length === 0 ? (
-            <p className="text-gray-500 mb-4">No reviews yet</p>
+            <p className="text-gray-500 dark:text-gray-400 mb-4">
+              No reviews yet
+            </p>
           ) : (
             <div className="space-y-4 mb-6">
               {movie.reviews.map((rev, idx) => (
                 <div
                   key={idx}
-                  className="bg-gray-100 p-4 rounded-xl shadow border border-gray-200"
+                  className="bg-gray-100 dark:bg-gray-800 p-4 rounded-xl shadow border border-gray-200 dark:border-gray-700"
                 >
-                  <p className="font-semibold text-yellow-600">
+                  <p className="font-semibold text-yellow-500">
                     ⭐ {rev.rating}/5
                   </p>
-                  <p className="text-gray-700 mt-1">{rev.text}</p>
-                  <p className="text-gray-500 text-sm mt-1">
+                  <p className="text-gray-900 dark:text-gray-200 mt-1">
+                    {rev.text}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {new Date(rev.date).toLocaleString()}
                   </p>
                 </div>
@@ -181,8 +199,7 @@ export default function MovieDetail() {
               onSubmit={addReview}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-white shadow-lg p-5 rounded-xl border"
+              className="bg-white dark:bg-gray-900 shadow-lg p-5 rounded-xl border border-gray-200 dark:border-gray-700"
             >
               <h3 className="text-xl font-bold mb-3">Add Review</h3>
 
@@ -190,7 +207,7 @@ export default function MovieDetail() {
               <select
                 value={rating}
                 onChange={(e) => setRating(e.target.value)}
-                className="border rounded px-3 py-2 mb-4"
+                className="border rounded px-3 py-2 mb-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 border-gray-300 dark:border-gray-700"
               >
                 <option value={5}>⭐⭐⭐⭐⭐</option>
                 <option value={4}>⭐⭐⭐⭐</option>
@@ -203,7 +220,7 @@ export default function MovieDetail() {
               <textarea
                 value={reviewText}
                 onChange={(e) => setReviewText(e.target.value)}
-                className="w-full border rounded px-3 py-2 h-28"
+                className="w-full border rounded px-3 py-2 h-28 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-200"
                 placeholder="Write your thoughts..."
               />
 
@@ -211,15 +228,15 @@ export default function MovieDetail() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+                className="mt-4 w-full bg-blue-600 dark:bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-blue-600"
               >
                 Submit Review
               </motion.button>
             </motion.form>
           ) : (
-            <p className="text-gray-500 mt-4">
+            <p className="text-gray-500 dark:text-gray-400 mt-4">
               You must{" "}
-              <Link to="/login" className="text-blue-600 underline">
+              <Link to="/login" className="text-blue-600 dark:text-blue-400 underline">
                 login
               </Link>{" "}
               to write a review.
