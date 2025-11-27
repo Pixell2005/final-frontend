@@ -15,16 +15,14 @@ export default function ReviewForm({ onSubmit }) {
 
     setSubmitting(true);
 
-    const newReview = { 
-      text: text.trim(), 
-      rating: Number(rating), 
+    const newReview = {
+      text: text.trim(),
+      rating: Number(rating),
       date: new Date().toISOString(),
-      username: user?.username || "Unknown"
+      username: user?.username || "Unknown",
     };
 
-    await axios.post(
-      "http://localhost:3001/reviews",
-      newReview);
+    await axios.post("http://localhost:3001/reviews", newReview);
 
     try {
       await onSubmit(newReview);
@@ -44,7 +42,9 @@ export default function ReviewForm({ onSubmit }) {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-white shadow-lg p-5 rounded-xl border"
+      className="p-5 rounded-xl border shadow
+        bg-gray-100 border-gray-300 text-black
+        dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100"
     >
       <h3 className="text-xl font-bold mb-3">Add Review</h3>
 
@@ -52,7 +52,9 @@ export default function ReviewForm({ onSubmit }) {
       <select
         value={rating}
         onChange={(e) => setRating(e.target.value)}
-        className="border rounded px-3 py-2 mb-4"
+        className="border rounded px-3 py-2 mb-4
+          bg-gray-100 text-black border-gray-400
+          dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
       >
         <option value={5}>⭐⭐⭐⭐⭐</option>
         <option value={4}>⭐⭐⭐⭐</option>
@@ -65,7 +67,9 @@ export default function ReviewForm({ onSubmit }) {
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        className="w-full border rounded px-3 py-2 h-28"
+        className="w-full border rounded px-3 py-2 h-28
+          bg-gray-100 text-black border-gray-400
+          dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600"
         placeholder="Write your thoughts..."
       />
 
