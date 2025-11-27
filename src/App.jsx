@@ -1,33 +1,57 @@
+// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import MovieDetail from "./pages/MovieDetail";
 import AddEditMovie from "./pages/AddEditMovie";
+import WatchList from "./pages/WatchList";
+import Profile from "./pages/Profile";
 
+import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
-
-import { ThemeProvider } from "./context/ThemeContext";
-import Footer from "./components/Footer";
 
 export default function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
         <Router>
-          {/* Flex container full screen */}
-          <div className="flex flex-col min-h-screen overlow-x-hidden">
+          <div className="flex flex-col min-h-screen overflow-x-hidden">
             <Navbar />
 
-            {/* Konten halaman */}
+            {/* MAIN CONTENT */}
             <main className="flex-1">
               <Routes>
+                {/* Public */}
                 <Route path="/" element={<Home />} />
-                <Route path="/movies/:id" element={<MovieDetail />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/movies/:id" element={<MovieDetail />} />
 
+                {/* User Protected */}
+                <Route
+                  path="/watchlist"
+                  element={
+                    <ProtectedRoute>
+                      <WatchList />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Admin */}
                 <Route
                   path="/admin/add"
                   element={
@@ -36,6 +60,7 @@ export default function App() {
                     </AdminRoute>
                   }
                 />
+
                 <Route
                   path="/admin/edit/:id"
                   element={
@@ -47,7 +72,6 @@ export default function App() {
               </Routes>
             </main>
 
-            {/* Footer */}
             <Footer />
           </div>
         </Router>
