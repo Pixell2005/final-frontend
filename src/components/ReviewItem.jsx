@@ -22,6 +22,11 @@ export default function ReviewItem({ review }) {
         transition-colors duration-500
       "
     >
+      {/* Username */}
+      <p className="font-semibold text-blue-600 dark:text-blue-400 mb-1">
+        {review.username || "Anonymous"}
+      </p>
+
       <div className="flex items-center justify-between">
         <p className="font-semibold text-yellow-600 dark:text-yellow-400">
           ⭐ {review.rating}/5

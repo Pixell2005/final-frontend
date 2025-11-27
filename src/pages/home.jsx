@@ -74,7 +74,7 @@ export default function Home() {
 
   return (
     <div 
-      className="theme-fade relative min-h-screen transition-all duration-300"
+      className="theme-fade relative min-h-screen transition-all duration-300 overflow-x-hidden"
       style={{
         background: `linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end))`,
         color: "var(--text-primary)"
@@ -131,7 +131,10 @@ export default function Home() {
 
           {/* Loading Skeleton */}
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="
+              grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6
+              max-w-7xl mx-auto px-4
+            ">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div 
                   key={i} 
@@ -145,7 +148,10 @@ export default function Home() {
               initial="hidden" 
               animate="show" 
               variants={gridVariants} 
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+              className="
+                grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6
+                max-w-7xl mx-auto px-4
+              "
             >
               <AnimatePresence>
                 {filteredMovies.map(m => (

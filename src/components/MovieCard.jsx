@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiEdit, FiTrash2, FiPlay } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPlay, FiPlus } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
 
 export default function MovieCard({ movie, onDelete }) {
@@ -19,15 +19,16 @@ export default function MovieCard({ movie, onDelete }) {
       whileHover={{ scale: 1.03 }}
       className="rounded-2xl overflow-hidden shadow-xl 
                  bg-white/5 backdrop-blur-md border border-white/10 
-                 transition-all duration-300"
+                 transition-all duration-300
+                 w-full max-w-[220px] md:max-w-[260px]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link to={`/movies/${movie.id}`}>
         <div className="relative">
-          {/* POSTER PORTRAIT */}
-          <div className="w-full aspect-[2/3] bg-gray-800 relative overflow-hidden">
 
+          {/* POSTER */}
+          <div className="w-full aspect-[2/3] bg-gray-800 relative overflow-hidden">
             {!imageLoaded && !imageError && (
               <div className="absolute inset-0 animate-pulse bg-gray-700"></div>
             )}
@@ -53,7 +54,7 @@ export default function MovieCard({ movie, onDelete }) {
             )}
           </div>
 
-          {/* GRADIENT BAWAH */}
+          {/* GRADIENT */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
 
           {/* TITLE */}
@@ -112,20 +113,34 @@ export default function MovieCard({ movie, onDelete }) {
         </div>
 
         {isAdmin && (
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col items-end gap-2">
+
+            {/* ➕ BUTTON TAMBAH MOVIE */}
             <Link
-              to={`/admin/edit/${movie.id}`}
-              className="p-2 hover:bg-white/10 rounded-lg"
+              to="/admin/add"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg 
+                         bg-green-600/30 hover:bg-green-600/40 
+                         text-green-400 text-sm font-semibold"
             >
-              <FiEdit className="text-blue-400" />
+              <FiPlus />
+              Add Movie
             </Link>
 
-            <button
-              onClick={() => onDelete(movie.id)}
-              className="p-2 hover:bg-red-500/20 rounded-lg text-red-400"
-            >
-              <FiTrash2 />
-            </button>
+            <div className="flex items-center gap-2 mt-1">
+              <Link
+                to={`/admin/edit/${movie.id}`}
+                className="p-2 hover:bg-white/10 rounded-lg"
+              >
+                <FiEdit className="text-blue-400" />
+              </Link>
+
+              <button
+                onClick={() => onDelete(movie.id)}
+                className="p-2 hover:bg-red-500/20 rounded-lg text-red-400"
+              >
+                <FiTrash2 />
+              </button>
+            </div>
           </div>
         )}
       </div>

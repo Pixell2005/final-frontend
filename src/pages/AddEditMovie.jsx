@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import { createMovie, getMovie, updateMovie } from "../services/api";
-import { GENRES } from "../pages/genres"; // Update import
+import { GENRES } from "../pages/genres";
 
 export default function AddEditMovie() {
   const { id } = useParams();
@@ -14,14 +14,39 @@ export default function AddEditMovie() {
   const [genre, setGenre] = useState("");
   const [poster, setPoster] = useState("");
   const [rating, setRating] = useState(0);
+
+  // HERO LANDSCAPE
+  const [heroImage, setHeroImage] = useState("");
+
+  // NEW FIELDS
+  const [trailer, setTrailer] = useState("");
+  const [summary, setSummary] = useState("");
+  const [producer, setProducer] = useState("");
+  const [cast, setCast] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
-  // Hapus GENRES array lokal, gunakan dari constants
+  // helper for base64
+  const convertToBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
 
-  // =========================
-  // LOAD MOVIE IF EDIT MODE
-  // =========================
+  const handlePoster = async (file) => {
+    const base64 = await convertToBase64(file);
+    setPoster(base64);
+  };
+
+  const handleHero = async (file) => {
+    const base64 = await convertToBase64(file);
+    setHeroImage(base64);
+  };
+
+  // Load movie for edit
   useEffect(() => {
     if (isEdit) {
       getMovie(id).then((res) => {
@@ -31,55 +56,16 @@ export default function AddEditMovie() {
         setGenre(m.genre);
         setPoster(m.poster);
         setRating(m.rating || 0);
+
+        setHeroImage(m.heroImage || "");
+        setTrailer(m.trailer || "");
+        setSummary(m.summary || "");
+        setProducer(m.producer || "");
+        setCast(m.cast ? m.cast.join(", ") : "");
       });
     }
   }, [id]);
 
-  // =========================
-  // HANDLE DRAG & DROP FILE
-  // =========================
-  const convertToBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-
-  const handleFile = async (file) => {
-    const base64 = await convertToBase64(file);
-    setPoster(base64);
-  };
-
-  const onDrop = useCallback(
-    async (e) => {
-      e.preventDefault();
-      setDragActive(false);
-      const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith("image/")) {
-        await handleFile(file);
-      }
-    },
-    []
-  );
-
-  const onDragOver = (e) => {
-    e.preventDefault();
-    setDragActive(true);
-  };
-
-  const onDragLeave = () => {
-    setDragActive(false);
-  };
-
-  const handleFileInput = async (e) => {
-    const file = e.target.files[0];
-    if (file) await handleFile(file);
-  };
-
-  // =========================
-  // SUBMIT
-  // =========================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -88,7 +74,19 @@ export default function AddEditMovie() {
       return;
     }
 
-    const payload = { title, year, genre, poster, rating, review: [] };
+    const payload = {
+      title,
+      year,
+      genre,
+      poster,
+      heroImage,
+      trailer,
+      summary,
+      producer,
+      cast: cast.split(",").map((c) => c.trim()),
+      rating,
+      review: [],
+    };
 
     setLoading(true);
     try {
@@ -104,62 +102,74 @@ export default function AddEditMovie() {
   return (
     <div className="min-h-screen px-6 py-10 bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       <motion.div
-        className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 
+        className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 
                    bg-white/20 backdrop-blur-xl shadow-xl 
                    rounded-3xl border border-white/20 p-8"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
       >
-        {/* POSTER SECTION */}
-        <motion.div
-          className="flex flex-col gap-4"
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-        >
+        {/* POSTER UPLOAD */}
+        <div className="flex flex-col gap-6">
           <h2 className="text-2xl font-bold text-gray-100">
             {isEdit ? "Edit Movie" : "Add New Movie"}
           </h2>
 
-          {/* DROPZONE */}
+          {/* Poster */}
           <div
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            onDragLeave={onDragLeave}
-            className={`w-full aspect-[2/3] rounded-xl border-2 
-                       flex items-center justify-center cursor-pointer
-                       transition 
-                       ${dragActive ? "border-indigo-400 bg-indigo-400/20"
-                                     : "border-white/20 bg-black/40"}`}
-            onClick={() => document.getElementById("fileInput").click()}
+            className="w-full aspect-[2/3] rounded-xl border-2 border-white/20 
+                       bg-black/40 flex items-center justify-center cursor-pointer"
+            onClick={() => document.getElementById("posterInput").click()}
           >
             {poster ? (
-              <img src={poster} className="w-full h-full object-cover rounded-xl" />
+              <img
+                src={poster}
+                className="w-full h-full object-cover rounded-xl"
+              />
             ) : (
-              <p className="text-gray-300 text-center px-4">
-                Drag & Drop poster here<br />or click to upload
-              </p>
+              <p className="text-gray-300 text-center">Upload Poster</p>
             )}
           </div>
-
-          {/* HIDDEN FILE INPUT */}
           <input
             type="file"
-            id="fileInput"
+            id="posterInput"
             accept="image/*"
             className="hidden"
-            onChange={handleFileInput}
+            onChange={(e) => handlePoster(e.target.files[0])}
           />
-        </motion.div>
 
-        {/* FORM SECTION */}
+          {/* HERO LANDSCAPE */}
+          <label className="text-gray-100 font-semibold mt-4">
+            Hero Landscape Image
+          </label>
+          <div
+            className="w-full aspect-video rounded-xl border-2 border-white/20 
+                       bg-black/40 flex items-center justify-center cursor-pointer"
+            onClick={() => document.getElementById("heroInput").click()}
+          >
+            {heroImage ? (
+              <img
+                src={heroImage}
+                className="w-full h-full object-cover rounded-xl"
+              />
+            ) : (
+              <p className="text-gray-300 text-center">Upload Hero Landscape</p>
+            )}
+          </div>
+          <input
+            type="file"
+            id="heroInput"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => handleHero(e.target.files[0])}
+          />
+        </div>
+
+        {/* FORM */}
         <motion.form
           onSubmit={handleSubmit}
           className="flex flex-col gap-5"
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
         >
-          {/* title */}
+          {/* Title */}
           <div>
             <label className="text-gray-100 font-semibold">Title</label>
             <input
@@ -169,7 +179,7 @@ export default function AddEditMovie() {
             />
           </div>
 
-          {/* year */}
+          {/* Year */}
           <div>
             <label className="text-gray-100 font-semibold">Year</label>
             <input
@@ -180,7 +190,7 @@ export default function AddEditMovie() {
             />
           </div>
 
-          {/* genre */}
+          {/* Genre */}
           <div>
             <label className="text-gray-100 font-semibold">Genre</label>
             <select
@@ -195,7 +205,49 @@ export default function AddEditMovie() {
             </select>
           </div>
 
-          {/* rating */}
+          {/* Trailer */}
+          <div>
+            <label className="text-gray-100 font-semibold">Trailer Link</label>
+            <input
+              className="w-full px-4 py-3 rounded-xl bg-white/30"
+              value={trailer}
+              onChange={(e) => setTrailer(e.target.value)}
+              placeholder="https://youtube.com/..."
+            />
+          </div>
+
+          {/* Summary */}
+          <div>
+            <label className="text-gray-100 font-semibold">Summary</label>
+            <textarea
+              className="w-full h-28 px-4 py-3 rounded-xl bg-white/30"
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+            />
+          </div>
+
+          {/* Producer */}
+          <div>
+            <label className="text-gray-100 font-semibold">Producer</label>
+            <input
+              className="w-full px-4 py-3 rounded-xl bg-white/30"
+              value={producer}
+              onChange={(e) => setProducer(e.target.value)}
+            />
+          </div>
+
+          {/* Cast */}
+          <div>
+            <label className="text-gray-100 font-semibold">Cast (comma separated)</label>
+            <input
+              className="w-full px-4 py-3 rounded-xl bg-white/30"
+              value={cast}
+              onChange={(e) => setCast(e.target.value)}
+              placeholder="Leonardo DiCaprio, Emma Stone, ..."
+            />
+          </div>
+
+          {/* Rating */}
           <div>
             <label className="text-gray-100 font-semibold">Rating</label>
             <div className="flex gap-2">
