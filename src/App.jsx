@@ -1,26 +1,81 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import AddEditMovie from './pages/AddEditMovie'
-import Navbar from './components/Navbar'
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
-function App() {
-return (
-<Router>
-<div className="min-h-screen bg-gray-100">
-<Navbar />
-<div className="container mx-auto px-4 py-6">
-<Routes>
-<Route path="/" element={<Home />} />
-<Route path="/add" element={<AddEditMovie />} />
-<Route path="/edit/:id" element={<AddEditMovie />} />
-</Routes>
-</div>
-</div>
-</Router>
-)
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import MovieDetail from "./pages/MovieDetail";
+import AddEditMovie from "./pages/AddEditMovie";
+import WatchList from "./pages/WatchList";
+import Profile from "./pages/Profile";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <ThemeProvider>
+        <Router>
+          <div className="flex flex-col min-h-screen overflow-x-hidden">
+            <Navbar />
+
+            {/* MAIN CONTENT */}
+            <main className="flex-1">
+              <Routes>
+                {/* Public */}
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/movies/:id" element={<MovieDetail />} />
+
+                {/* User Protected */}
+                <Route
+                  path="/watchlist"
+                  element={
+                    <ProtectedRoute>
+                      <WatchList />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Admin */}
+                <Route
+                  path="/admin/add"
+                  element={
+                    <AdminRoute>
+                      <AddEditMovie />
+                    </AdminRoute>
+                  }
+                />
+
+                <Route
+                  path="/admin/edit/:id"
+                  element={
+                    <AdminRoute>
+                      <AddEditMovie />
+                    </AdminRoute>
+                  }
+                />
+              </Routes>
+            </main>
+
+            <Footer />
+          </div>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
+  );
 }
-
-
-export default App
