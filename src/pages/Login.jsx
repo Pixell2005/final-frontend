@@ -167,42 +167,45 @@ export default function Login() {
           )}
 
           <div className="space-y-4">
-            
-            {/* EMAIL (Sign Up Only) */}
-            {isSignUp && (
-              <>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full bg-black/30 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
 
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  className="w-full bg-black/30 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </>
-            )}
+  {/* USERNAME */}
+  <input
+    type="text"
+    placeholder="Username"
+    className="w-full bg-black/30 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none"
+    onChange={(e) => setUsername(e.target.value)}
+  />
 
-            {/* USERNAME */}
-            <input
-              type="text"
-              placeholder="Username"
-              className="w-full bg-black/30 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none"
-              onChange={(e) => setUsername(e.target.value)}
-            />
+  {/* EMAIL (Only Sign Up) */}
+  {isSignUp && (
+    <input
+      type="email"
+      placeholder="Email"
+      className="w-full bg-black/30 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none"
+      onChange={(e) => setEmail(e.target.value)}
+    />
+  )}
 
-            {/* PASSWORD */}
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full bg-black/30 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+  {/* PASSWORD */}
+  <input
+    type="password"
+    placeholder="Password"
+    className="w-full bg-black/30 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none"
+    onChange={(e) => setPassword(e.target.value)}
+  />
+
+  {/* CONFIRM PASSWORD (Only Sign Up) */}
+  {isSignUp && (
+    <input
+      type="password"
+      placeholder="Confirm Password"
+      className="w-full bg-black/30 border border-gray-600 text-white px-4 py-3 rounded-lg focus:outline-none"
+      onChange={(e) => setConfirmPassword(e.target.value)}
+    />
+  )}
+
+</div>
+
 
           <button
             type="submit"
@@ -222,17 +225,13 @@ export default function Login() {
                 setSuccessMsg("");
               }}
             >
-              {isSignUp ? "Login" : "Daftar"}
+              {isSignUp ? "Sign In" : "Sign Up"}
             </span>
           </p>
 
           {!isSignUp && (
             <div className="mt-6 text-center">
-              <p className="text-gray-400 text-xs">Demo Credentials:</p>
               <div className="flex justify-center gap-4 mt-2 text-xs text-blue-300 font-mono">
-                <span>admin / admin123</span>
-                <span>|</span>
-                <span>user / user123</span>
               </div>
             </div>
           )}
