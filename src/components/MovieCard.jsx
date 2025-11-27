@@ -18,7 +18,6 @@ export default function MovieCard({ movie, onDelete }) {
       const list = JSON.parse(localStorage.getItem("watchlist") || "[]");
       setIsInWatchlist(list.some((m) => String(m.id) === String(movie.id)));
     };
-
     check();
     window.addEventListener("watchlist-updated", check);
     return () => window.removeEventListener("watchlist-updated", check);
@@ -27,7 +26,6 @@ export default function MovieCard({ movie, onDelete }) {
   const toggleWatchlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
     const raw = localStorage.getItem("watchlist") || "[]";
     const list = JSON.parse(raw);
     const exists = list.some((m) => String(m.id) === String(movie.id));
@@ -65,7 +63,7 @@ export default function MovieCard({ movie, onDelete }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* ----- ADMIN ADD BUTTON (FLOAT) ----- */}
+      {/* ADMIN ADD BUTTON */}
       {isAdmin && (
         <Link
           to="/admin/add"
@@ -80,7 +78,6 @@ export default function MovieCard({ movie, onDelete }) {
 
       <Link to={`/movies/${movie.id}`}>
         <div className="relative">
-
           {/* POSTER */}
           <div className="w-full aspect-[2/3] bg-gray-800 relative overflow-hidden">
             {!imageLoaded && !imageError && (
@@ -89,7 +86,7 @@ export default function MovieCard({ movie, onDelete }) {
 
             {imageError ? (
               <div className="flex items-center justify-center w-full h-full">
-                <span className="text-gray-400">No Image</span>
+                <span className="text-gray-400 dark:text-gray-500">No Image</span>
               </div>
             ) : (
               <motion.img
@@ -112,7 +109,7 @@ export default function MovieCard({ movie, onDelete }) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
 
           {/* TITLE */}
-          <h3 className="absolute left-4 bottom-5 text-white font-bold text-lg drop-shadow-xl max-w-[85%] leading-tight">
+          <h3 className="absolute left-4 bottom-5 font-bold text-lg drop-shadow-xl max-w-[85%] leading-tight text-blue-900 dark:text-white">
             {movie.title}
           </h3>
 
@@ -143,14 +140,14 @@ export default function MovieCard({ movie, onDelete }) {
         </div>
       </Link>
 
-      {/* ---- INFO SECTION ---- */}
+      {/* INFO SECTION */}
       <div className="p-4">
-
         {/* Rating + Genre */}
-        <p className="text-sm text-gray-300">
+        <p className="text-sm text-blue-800 dark:text-gray-300">
           {movie.year} • {movie.genre}
         </p>
 
+        {/* Stars */}
         <div className="flex items-center gap-1 mt-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <span
@@ -158,7 +155,7 @@ export default function MovieCard({ movie, onDelete }) {
               className={`text-sm ${
                 i < Math.floor(movie.rating || 0)
                   ? "text-yellow-400"
-                  : "text-gray-500"
+                  : "text-blue-800 dark:text-gray-500"
               }`}
             >
               ★
@@ -168,12 +165,13 @@ export default function MovieCard({ movie, onDelete }) {
 
         {/* Bottom right actions */}
         <div className="flex justify-between items-center mt-4">
-
-          {/* WATCHLIST ICON BUTTON */}
+          {/* WATCHLIST ICON */}
           <button
             onClick={toggleWatchlist}
             className={`p-2 rounded-xl transition 
-              ${isInWatchlist ? "bg-yellow-500 text-black" : "bg-white/10 text-white hover:bg-white/20"}`}
+              ${isInWatchlist
+                ? "bg-yellow-500 text-black"
+                : "bg-white/10 text-blue-900 dark:text-white hover:bg-white/20"}`}
             title={isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
           >
             <FiBookmark className="text-xl" />
@@ -186,14 +184,14 @@ export default function MovieCard({ movie, onDelete }) {
                 to={`/admin/edit/${movie.id}`}
                 className="p-2 hover:bg-white/10 rounded-lg"
               >
-                <FiEdit className="text-blue-400 text-lg" />
+                <FiEdit className="text-blue-400 dark:text-blue-300 text-lg" />
               </Link>
 
               <button
                 onClick={() => onDelete && onDelete(movie.id)}
                 className="p-2 hover:bg-red-500/20 rounded-lg"
               >
-                <FiTrash2 className="text-red-400 text-lg" />
+                <FiTrash2 className="text-red-400 dark:text-red-300 text-lg" />
               </button>
             </div>
           )}
